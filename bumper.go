@@ -18,13 +18,13 @@ func main() {
 	var err error
 	data := []byte{}
 
-	if a.FileName != "" {
+	if a.Input != "" {
+		data = []byte(a.Input)
+	} else if a.FileName != "" {
 		data, err = ioutil.ReadFile(a.FileName)
 		if err != nil {
 			log.Fatal(err)
 		}
-	} else if a.Input != "" {
-		data = []byte(a.Input)
 	} else {
 		fmt.Printf("Usage: ......")
 		return

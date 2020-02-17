@@ -1,9 +1,7 @@
 package main
 
 import (
-	"fmt"
 	"os"
-	"strings"
 
 	"github.com/leffen/cruncy"
 	"github.com/sirupsen/logrus"
@@ -38,7 +36,7 @@ func (a *app) Assign(name string) {
 
 	o.MakeString("filename", "f", "FILE_NAME", "VERSION", "Name of file containing version")
 	o.MakeString("input", "i", "INPUT", "", "Optionally use input pattern to bump. Instead of filename")
-	o.MakeString("format", "f", "FORMAT", "", "either M for major, M-m for major-minor or M-m-p")
+	o.MakeString("format", "F", "FORMAT", "", "either M for major, M-m for major-minor or M-m-p")
 	o.MakeString("part", "p", "PART", "p", "M for major, m for minor or p for patch")
 
 	o.MakeBool("extract", "e", "EXTRACT", false, "Only extract version and displayit")
@@ -71,8 +69,4 @@ func (a *app) StartLog() {
 	if a.JSONFormatter {
 		logrus.SetFormatter(&logrus.JSONFormatter{})
 	}
-
-	startInfo := fmt.Sprintf("------> %s version: %s Commit hash: %s Build time: %s ShowDebug:%t ", strings.ToUpper(a.Name), VERSION, CommitHash, BuildTime, a.Verbose)
-
-	logrus.Infoln(startInfo)
 }
