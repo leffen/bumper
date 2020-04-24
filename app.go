@@ -34,7 +34,7 @@ func (a *app) Assign(name string) {
 
 	o := cruncy.NewCliOption("bumper")
 
-	o.MakeString("filename", "f", "FILE_NAME", "VERSION", "Name of file containing version")
+	o.MakeString("filename", "f", "FILE_NAME", "", "Name of file containing version")
 	o.MakeString("input", "i", "INPUT", "", "Optionally use input pattern to bump. Instead of filename")
 	o.MakeString("format", "F", "FORMAT", "", "either M for major, M-m for major-minor or M-m-p")
 	o.MakeString("part", "p", "PART", "p", "M for major, m for minor or p for patch")
