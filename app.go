@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/leffen/cruncy"
@@ -54,7 +55,10 @@ func (a *app) Assign(name string) {
 	a.JSONFormatter = o.GetBool("json_formatter")
 
 	a.StartLog()
+}
 
+func (a *app) Usage() {
+	fmt.Printf("Bumper .....")
 }
 
 func (a *app) StartLog() {

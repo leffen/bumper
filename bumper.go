@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 	"regexp"
 	"strconv"
 
@@ -15,20 +16,15 @@ func main() {
 	a := &app{}
 	a.Assign("bumper")
 
-	var err error
-	data := []byte{}
+	data, err := getVersionData(a.Input, a.FileName)
 
-	if a.Input != "" {
-		data = []byte(a.Input)
-	} else if a.FileName != "" {
-		data, err = ioutil.ReadFile(a.FileName)
-		if err != nil {
-			log.Fatal(err)
-		}
-	} else {
-		fmt.Printf("Usage: ......")
-		return
+if err != nil {
+	if err.Error() == "No version info found"{
+		a.Usage()
+		os.Exit(-1)
 	}
+	logrus.Fatal(err)
+}
 
 	old, new, _, newcontent, err := BumpInContent(data, a.Part)
 	if err != nil {
@@ -49,6 +45,16 @@ func main() {
 	}
 	print(a.Format, string(new))
 	return
+}
+
+func getVersionData(input, fileName string) ([]byte, error) {
+	if input != "" {
+		return []byte(input), nil
+	}
+	if fileName != "" {
+		return ioutil.ReadFile(fileName)
+	}
+	return nil, fmt.Errorf("No version info found")
 }
 
 func print(format, version string) {

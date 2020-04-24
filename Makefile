@@ -27,7 +27,6 @@ compiled: test
 build: test
 	go build  -ldflags "-s -X main.CommitHash=$(GitCommit) -X main.BuildTime=$(BuildTime)" -a  -o $(DIST)/$(APP) $(SOURCES)
 
-
 run:
 	go run $(SOURCES) -i "0.0.1"
 
