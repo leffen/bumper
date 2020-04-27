@@ -52,6 +52,7 @@ func (a *app) Assign(name string) {
 	a.Extract = o.GetBool("extract")
 	a.Format = o.GetString("format")
 	a.Verbose = o.GetBool("verbose")
+	a.Part = o.GetString("part")
 	a.JSONFormatter = o.GetBool("json_formatter")
 
 	a.StartLog()

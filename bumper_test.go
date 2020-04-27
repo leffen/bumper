@@ -17,3 +17,15 @@ func TestBump(t *testing.T) {
 	assert.Equal(t, "0.0.2", string(newcontent))
 
 }
+
+func TestBumpWithTag(t *testing.T) {
+
+	data := "0.0.1 testTag"
+	old, new, _, newcontent, err := BumpInContent([]byte(data), "p")
+
+	assert.Nil(t, err)
+	assert.Equal(t, "0.0.1", old)
+	assert.Equal(t, "0.0.2", new)
+	assert.Equal(t, "0.0.2 testTag", string(newcontent))
+
+}

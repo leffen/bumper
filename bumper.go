@@ -8,8 +8,10 @@ import (
 	"os"
 	"regexp"
 	"strconv"
+	"strings"
 
 	"github.com/coreos/go-semver/semver"
+	"github.com/sirupsen/logrus"
 )
 
 func main() {
@@ -18,15 +20,15 @@ func main() {
 
 	data, err := getVersionData(a.Input, a.FileName)
 
-if err != nil {
-	if err.Error() == "No version info found"{
-		a.Usage()
-		os.Exit(-1)
+	if err != nil {
+		if err.Error() == "No version info found" {
+			a.Usage()
+			os.Exit(-1)
+		}
+		logrus.Fatal(err)
 	}
-	logrus.Fatal(err)
-}
 
-	old, new, _, newcontent, err := BumpInContent(data, a.Part)
+	old, _, _, newcontent, err := BumpInContent(data, a.Part)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -43,7 +45,7 @@ if err != nil {
 			log.Fatal(err)
 		}
 	}
-	print(a.Format, string(new))
+	print(a.Format, string(newcontent))
 	return
 }
 
@@ -81,8 +83,17 @@ func print(format, version string) {
 
 // BumpInContent takes finds the first semver string in the content, bumps it, then returns the same content with the new version
 func BumpInContent(vbytes []byte, part string) (old, new string, loc []int, newcontents []byte, err error) {
+	data := strings.TrimSpace(string(vbytes))
+	if len(data) < 1 {
+		return "", "", nil, nil, fmt.Errorf("Did not find semantic version")
+	}
+	fields := strings.Split(data, " ")
+	if len(fields) == 0 {
+		return "", "", nil, nil, fmt.Errorf("Did not find semantic version")
+	}
+
 	re := regexp.MustCompile(`(\d+\.)?(\d+\.)?(\*|\d+)`)
-	loc = re.FindIndex(vbytes)
+	loc = re.FindIndex([]byte(fields[0]))
 
 	if loc == nil {
 		return "", "", nil, nil, fmt.Errorf("Did not find semantic version")
