@@ -27,6 +27,9 @@ compiled: test
 build: test
 	go build  -ldflags "-s -X main.CommitHash=$(GitCommit) -X main.BuildTime=$(BuildTime)" -a  -o $(DIST)/$(APP) $(SOURCES)
 
+install:
+	go install  -ldflags "-s -X main.CommitHash=$(GitCommit) -X main.BuildTime=$(BuildTime)"
+
 run:
 	go run $(SOURCES) -i "0.0.1 testTag"
 	go run $(SOURCES) -p m -i "0.0.1 testMinor"

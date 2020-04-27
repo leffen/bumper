@@ -59,7 +59,7 @@ func (a *app) Assign(name string) {
 }
 
 func (a *app) Usage() {
-	fmt.Printf("Bumper .....")
+	fmt.Printf("Bumper %s.....\n", BuildTime)
 }
 
 func (a *app) StartLog() {
